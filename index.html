@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Sudoku</title>
+    <link rel="stylesheet" href="./style.css">
+
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#e07a5f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+</head>
+    
+  <body>
+  <div class="app">
+  <!-- ===== MENU SCREEN ===== -->
+  <section id="menuScreen" class="screen">
+    <header class="topbar">
+      <div class="title">
+        <h1>Sudoku</h1>
+        <div class="subtitle">Pick a difficulty, then start.</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="label">Difficulty</div>
+
+      <div class="difficulty-grid">
+        <label class="diff">
+          <input type="radio" name="difficulty" value="Easy" checked />
+          <span>
+            <span class="diff-name">Easy</span>
+            <span class="diff-desc">More filled-in numbers</span>
+          </span>
+        </label>
+
+        <label class="diff">
+          <input type="radio" name="difficulty" value="Medium" />
+          <span>
+            <span class="diff-name">Medium</span>
+            <span class="diff-desc">Balanced</span>
+          </span>
+        </label>
+
+        <label class="diff">
+          <input type="radio" name="difficulty" value="Hard" />
+          <span>
+            <span class="diff-name">Hard</span>
+            <span class="diff-desc">More blanks</span>
+          </span>
+        </label>
+
+        <label class="diff">
+          <input type="radio" name="difficulty" value="Expert" />
+          <span>
+            <span class="diff-name">Expert</span>
+            <span class="diff-desc">Lots of blanks</span>
+          </span>
+        </label>
+      </div>
+
+      <div class="menu-actions">
+        <button id="startBtn" class="btn btn-accent btn-big">Start Game</button>
+      </div>
+    </div>
+
+    <div class="help">
+      Tip: Click a square then type <b>1–9</b> or tap the number pad.
+      Use <b>Backspace/Delete</b> (or Clear) to erase.
+    </div>
+  </section>
+
+  <!-- ===== GAME SCREEN ===== -->
+  <section id="gameScreen" class="screen hidden">
+    <header class="topbar">
+      <div class="title">
+        <h1>Sudoku</h1>
+        <div id="difficultyDisplay" class="level">Difficulty: Easy</div>
+      </div>
+
+      <div class="controls">
+        <button id="menuBtn" class="btn">Menu</button>
+        <button id="hintBtn" class="btn">Hint</button>
+        <button id="submitBtn" class="btn">Submit</button>
+        <button id="nextBtn" class="btn btn-accent">Next</button>
+      </div>
+    </header>
+
+    <main class="game-fit">
+      <div id="board" class="board" aria-label="Sudoku board"></div>
+
+      <section class="pad" aria-label="Number pad">
+        <button class="pad-btn" data-num="1">1</button>
+        <button class="pad-btn" data-num="2">2</button>
+        <button class="pad-btn" data-num="3">3</button>
+        <button class="pad-btn" data-num="4">4</button>
+        <button class="pad-btn" data-num="5">5</button>
+        <button class="pad-btn" data-num="6">6</button>
+        <button class="pad-btn" data-num="7">7</button>
+        <button class="pad-btn" data-num="8">8</button>
+        <button class="pad-btn" data-num="9">9</button>
+        <button class="pad-btn pad-wide" data-action="clear">Clear</button>
+      </section>
+    </main>
+
+    <!-- ===== WIN OVERLAY ===== -->
+    <div id="winOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Puzzle solved">
+      <div class="overlay-card">
+        <div class="overlay-title">You solved it!</div>
+        <div class="overlay-text">Nice work. Want another one?</div>
+        <div class="overlay-actions">
+          <button id="winNextBtn" class="btn btn-accent">Next Puzzle</button>
+          <button id="winMenuBtn" class="btn">Menu</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+    <script  src="./script.js"></script>
+
+  
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js");
+        });
+      }
+    </script>
+</body>
+  
+</html>

@@ -1,0 +1,350 @@
+:root{
+  --sage-900: #3e4a3f;
+  --sage-700: #5f6f52;
+  --sage-300: #a3b18a;
+  --sage-150: #cbd5b3;
+  --sage-100: #e9eddc;
+
+  --terracotta: #e07a5f;
+  --terracotta-dark: #c9654e;
+
+  --ink: #1e1e1e;
+  --card: rgba(255, 255, 255, 0.65);
+  --shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at top, var(--sage-100), var(--sage-300));
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  overflow: hidden; /* no page scrolling */
+}
+
+/* App container */
+.app {
+  width: min(820px, 96vw);
+  height: 100dvh;            /* use dynamic viewport height */
+  max-height: 920px;
+  background: var(--card);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  position: relative;
+  overflow: hidden; /* no internal scrolling */
+}
+
+.hidden { display: none !important; }
+
+/* Screens fill app */
+.screen {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+  min-height: 0;
+}
+
+/* Header */
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.title h1 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: var(--sage-900);
+}
+
+.subtitle {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(0,0,0,0.65);
+}
+
+.level {
+  margin-top: 6px;
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(224, 122, 95, 0.18);
+  border: 1px solid rgba(224, 122, 95, 0.35);
+  color: var(--sage-900);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.btn {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.82);
+  padding: 9px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 900;
+  color: var(--sage-900);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.btn-accent {
+  background: var(--terracotta);
+  border-color: rgba(0,0,0,0.08);
+  color: white;
+}
+.btn-accent:hover { background: var(--terracotta-dark); }
+
+.btn-big {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 14px;
+}
+
+/* Menu card layout */
+.card {
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.label {
+  font-weight: 900;
+  color: var(--sage-900);
+  margin-bottom: 8px;
+}
+
+.difficulty-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.diff {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(233, 237, 220, 0.8);
+  cursor: pointer;
+}
+
+.diff input { accent-color: var(--terracotta); }
+
+.diff-name { font-weight: 900; color: var(--sage-900); }
+.diff-desc {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.65);
+  font-weight: 700;
+}
+
+.menu-actions { margin-top: 10px; }
+
+.help {
+  font-size: 12px;
+  color: rgba(0,0,0,0.7);
+}
+
+/* ============================ */
+/* GAME: NO OVERLAP, NO SCROLL  */
+/* ============================ */
+
+/* Main area: board gets remaining height, pad stays at bottom */
+.game-fit{
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto; /* key fix */
+  gap: 10px;
+  align-items: stretch;
+}
+
+/* Board is sized by HEIGHT first, then width */
+.board{
+  justify-self: center;
+  align-self: stretch;
+
+  height: 100%;
+  width: auto;          /* key fix: width follows height */
+  max-width: 100%;
+
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 4px solid rgba(224, 122, 95, 0.6);
+  background: rgba(0,0,0,0.05);
+}
+
+/* Pad sits under board and never overlaps it */
+.pad{
+  justify-self: center;
+  width: min(520px, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* Compact pad buttons so it fits on small phones */
+.pad-btn{
+  padding: 10px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.92);
+  font-weight: 900;
+  font-size: 15px;
+  color: var(--sage-900);
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* If screen is short, shrink pad even more */
+@media (max-height: 720px){
+  .pad-btn{ padding: 8px 0; font-size: 14px; }
+  .btn{ padding: 8px 9px; font-size: 12px; }
+  .title h1{ font-size: 16px; }
+}
+
+.pad-wide{
+  grid-column: 1 / span 3;
+  background: rgba(224, 122, 95, 0.18);
+  border-color: rgba(224, 122, 95, 0.35);
+}
+
+/* Wide screens: board left, pad right, still no overlap */
+@media (min-width: 720px){
+  .game-fit{
+    grid-template-rows: 1fr;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .board{
+    height: min(100%, 520px);
+    width: auto;
+    max-width: 100%;
+  }
+
+  .pad{
+    width: 100%;
+    max-width: 320px;
+    justify-self: end;
+    align-self: center;
+  }
+}
+
+/* Tiles */
+.tile{
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  background: rgba(233, 237, 220, 0.9);
+  color: var(--sage-900);
+  border: 1px solid rgba(0,0,0,0.08);
+  cursor: pointer;
+  user-select: none;
+  font-size: clamp(14px, 2.6vw, 22px);
+}
+
+/* thicker grid lines for 3x3 sections */
+.tile:nth-child(9n+3),
+.tile:nth-child(9n+6) {
+  border-right: 2px solid rgba(62, 74, 63, 0.35);
+}
+.tile:nth-child(n+19):nth-child(-n+27),
+.tile:nth-child(n+46):nth-child(-n+54) {
+  border-bottom: 2px solid rgba(62, 74, 63, 0.35);
+}
+
+.fixed{
+  background: rgba(203, 213, 179, 0.95);
+  cursor: default;
+}
+
+.selected{
+  outline: 3px solid rgba(224, 122, 95, 0.9);
+  outline-offset: -3px;
+  background: rgba(224, 122, 95, 0.18);
+}
+
+.hint{
+  background: rgba(224, 122, 95, 0.22);
+  outline: 2px dashed rgba(224, 122, 95, 0.9);
+  outline-offset: -2px;
+}
+
+.error{
+  background: rgba(255, 0, 0, 0.12);
+  outline: 2px solid rgba(255, 0, 0, 0.28);
+  outline-offset: -2px;
+}
+
+/* Win overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(62, 74, 63, 0.35);
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.overlay-card {
+  width: min(420px, 92%);
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+  text-align: center;
+}
+
+.overlay-title {
+  font-weight: 1000;
+  color: var(--sage-900);
+  font-size: 22px;
+}
+
+.overlay-text {
+  margin-top: 8px;
+  color: rgba(0,0,0,0.72);
+  font-weight: 700;
+}
+
+.overlay-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
